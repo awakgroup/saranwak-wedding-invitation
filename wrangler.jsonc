@@ -8,17 +8,12 @@
   },
   "assets": {
     "directory": "."
-  }
-  /*
-  // Tambahkan binding D1 setelah database dibuat:
-  // npx wrangler d1 create saranwak_wedding_db
-  ,
+  },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "saranwak_wedding_db",
-      "database_id": "<MASUKKAN_DATABASE_ID_D1>"
+      "database_id": "4bfa3d32-6823-4566-9f27-e3edd533f3f3"
     }
   ]
-  */
 }

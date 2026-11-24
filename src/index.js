@@ -10,6 +10,27 @@ const corsHeaders = {
   "Content-Type": "application/json; charset=utf-8"
 };
 
+let tableInitialized = false;
+async function ensureTable(db) {
+  if (tableInitialized || !db) return;
+  try {
+    await db.exec(`
+      CREATE TABLE IF NOT EXISTS ucapan (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tema TEXT NOT NULL,
+        nama TEXT NOT NULL,
+        hadir TEXT DEFAULT 'Doa',
+        isi TEXT DEFAULT '',
+        waktu DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_ucapan_tema ON ucapan(tema);
+    `);
+    tableInitialized = true;
+  } catch (e) {
+    // Abaikan jika sudah ada atau ada error minor DDL
+  }
+}
+
 async function handleUcapanApi(request, env, url) {
   if (request.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -26,6 +47,9 @@ async function handleUcapanApi(request, env, url) {
       { status: 200, headers: corsHeaders }
     );
   }
+
+  // Otomatis pastikan tabel ucapan sudah ada di D1
+  await ensureTable(env.DB);
 
   // GET: Fetch ucapan for specific theme
   if (request.method === "GET") {
