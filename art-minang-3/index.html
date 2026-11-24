@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budi &amp; Santi — Art Minang 3 · Undangan Pernikahan</title>
+<meta name="description" content="Undangan pernikahan adat Minangkabau Budi & Santi — Minggu, 14 Februari 2027, Padang, Sumatera Barat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="kolom">
+
+<!-- ================= COVER ================= -->
+<header class="cover" id="beranda">
+  <div class="cover-frame">
+    <div class="songket-atas" aria-hidden="true"></div>
+    <div class="arch-frame">
+      <img id="heroCover" src="assets/hero-rumah-gadang.jpg" alt="Ilustrasi Rumah Gadang">
+    </div>
+    <p class="eyebrow">The Wedding Of</p>
+    <h1><span data-nama="pria">Budi</span> <em>&amp;</em> <span data-nama="wanita">Santi</span></h1>
+    <p class="date"><span data-tanggal>Minggu, 14 Februari 2027</span></p>
+    <p class="to">Kepada Yth.<br>Bapak/Ibu/Saudara/i<br><b id="namaTamu">Tamu Undangan</b></p>
+    <button class="btn" id="btnBuka">Buka Undangan</button>
+    <p class="note">Coba ubah nama tamu lewat link: <span class="emas">?to=Nama+Tamu</span></p>
+  </div>
+</header>
+
+<main id="isi" class="hidden">
+
+  <!-- ================= HERO ================= -->
+  <section class="reveal hero" id="hero">
+    <div class="arch-frame">
+      <img id="heroUtama" src="assets/hero-rumah-gadang.jpg" alt="Ilustrasi Rumah Gadang">
+    </div>
+    <p class="eyebrow">The Wedding Of</p>
+    <h2 class="nama-besar"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></h2>
+    <p class="date"><span data-tanggal>Minggu, 14 Februari 2027</span> · <span data-kota>Padang, Sumatera Barat</span></p>
+    <p class="script-judul">We Are Getting Married!</p>
+    <p class="sub">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu. Atas kehadiran dan doa restunya, kami ucapkan terima kasih.</p>
+  </section>
+
+  <!-- ================= MEMPELAI ================= -->
+  <section class="reveal" id="mempelai">
+    <div class="judul-section">
+      <p class="script">Mempelai</p>
+      <h2>Bride &amp; Groom</h2>
+    </div>
+    <div class="couple" id="kartuMempelai"><!-- diisi js/app.js --></div>
+  </section>
+
+  <!-- ================= COUNTDOWN ================= -->
+  <section class="reveal foto-bg" id="countdownSection">
+    <img class="bg-foto" id="bgSuntiang" src="assets/suntiang-closeup.jpg" alt="" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section terang">
+        <p class="script">Count</p>
+        <h2>Down</h2>
+      </div>
+      <div class="count" id="countdown">
+        <div><b id="d">–</b><span>Hari</span></div>
+        <div><b id="h">–</b><span>Jam</span></div>
+        <div><b id="m">–</b><span>Menit</span></div>
+        <div><b id="s">–</b><span>Detik</span></div>
+      </div>
+      <p style="margin-top:22px"><a class="btn" id="btnKalender" href="#" target="_blank" rel="noopener">Save The Date</a></p>
+    </div>
+  </section>
+
+  <!-- ================= QS AR-RUM 21 ================= -->
+  <section class="reveal ayat">
+    <blockquote>&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</blockquote>
+    <p class="sumber-ayat">Ar Rum Ayat 21</p>
+  </section>
+
+  <!-- ================= WEDDING EVENT ================= -->
+  <section class="reveal foto-bg" id="acara">
+    <img class="bg-foto" id="bgDedaunan" src="assets/dedaunan.jpg" alt="" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section terang">
+        <p class="script">Wedding</p>
+        <h2>Event</h2>
+      </div>
+      <p class="sub terang">Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami:</p>
+      <div class="event-list" id="daftarAcara"><!-- diisi js/app.js --></div>
+    </div>
+  </section>
+
+  <!-- ================= LIVE STREAMING ================= -->
+  <section class="reveal foto-bg" id="live">
+    <img class="bg-foto" id="bgLive" src="assets/live-streaming.jpg" alt="" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section terang">
+        <p class="script">Live</p>
+        <h2>Streaming</h2>
+      </div>
+      <p class="sub terang" id="liveKet">Pernikahan kami dapat disaksikan secara langsung melalui live streaming.</p>
+      <p style="margin-top:20px"><button class="btn" id="btnJoinLive">Join Live</button></p>
+      <p class="note terang hidden" id="livePesan">Tautan live streaming akan dibagikan menjelang hari-H.</p>
+    </div>
+  </section>
+
+  <!-- ================= GALERI ================= -->
+  <section class="reveal" id="galeri">
+    <div class="judul-section">
+      <p class="script">Our</p>
+      <h2>Gallery</h2>
+    </div>
+    <div class="carousel-wrap">
+      <button class="car-nav" id="carPrev" aria-label="Geser kiri">‹</button>
+      <div class="carousel" id="carouselGaleri"><!-- diisi js/app.js --></div>
+      <button class="car-nav" id="carNext" aria-label="Geser kanan">›</button>
+    </div>
+    <p class="sub">Klik foto untuk memperbesar.</p>
+    <div class="gallery-grid" id="daftarGaleri"><!-- diisi js/app.js --></div>
+  </section>
+
+  <!-- ================= LOVE STORY ================= -->
+  <section class="reveal foto-bg" id="kisah">
+    <img class="bg-foto" id="bgFasad" src="assets/fasad-rumah-gadang.jpg" alt="" aria-hidden="true">
+    <div class="overlay terang"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section">
+        <p class="script">Love</p>
+        <h2>Story</h2>
+      </div>
+      <div class="timeline" id="daftarKisah"><!-- diisi js/app.js --></div>
+    </div>
+  </section>
+
+  <!-- ================= WEDDING GIFT ================= -->
+  <section class="reveal foto-bg" id="amplop">
+    <img class="bg-foto blur" id="bgGift" src="assets/mempelai-wanita.jpg" alt="" aria-hidden="true">
+    <div class="overlay terang"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section">
+        <p class="script">Wedding</p>
+        <h2>Gift</h2>
+      </div>
+      <div class="arch-card">
+        <img class="gonjong-icon" src="assets/rumah-gadang-icon.png" alt="Ikon Rumah Gadang">
+        <p class="sub">Tanpa mengurangi rasa hormat, bagi rekan-rekan dan sahabat yang hendak memberikan tanda kasih untuk kami, dapat melalui nomor rekening di bawah ini.</p>
+        <div id="daftarAmplop"><!-- diisi js/app.js --></div>
+        <div class="divider-hati" aria-hidden="true"><span></span>♥<span></span></div>
+        <h3>Kirim Kado</h3>
+        <p id="alamatKado"></p>
+        <button class="btn kecil" data-salin-target="alamatKado" style="margin-top:12px">Copy Alamat</button>
+      </div>
+
+      <div class="arch-card" style="margin-top:20px">
+        <div class="judul-section kecil">
+          <p class="script">Gift</p>
+          <h2>Confirm</h2>
+        </div>
+        <p class="sub">Mohon konfirmasi untuk pengiriman gift. Terima kasih.</p>
+        <form id="formGift">
+          <input id="giftNama" required placeholder="Nama Anda">
+          <input id="giftBank" required placeholder="Nama Bank">
+          <input id="giftNominal" required placeholder="Nominal" inputmode="numeric">
+          <textarea id="giftUcapan" rows="2" placeholder="Ucapan (opsional)"></textarea>
+          <label class="file-label">Bukti Transfer
+            <input type="file" id="giftBukti" accept="image/*,.pdf">
+          </label>
+          <button class="btn" type="submit">Konfirmasi</button>
+        </form>
+        <p id="giftOk" class="hidden pesan-sukses">Terima kasih — konfirmasi gift Anda tercatat di halaman ini.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section class="reveal foto-bg" id="rsvp">
+    <img class="bg-foto" id="bgKain" src="assets/kain-marun.jpg" alt="" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section terang">
+        <p class="script">RSVP</p>
+        <h2>Konfirmasi Kehadiran</h2>
+      </div>
+      <p class="sub terang">Bantu kami mempersiapkan jamuan yang hangat untuk Anda semua dengan mengirimkan konfirmasi kehadiran melalui form berikut ini.</p>
+      <form id="formRsvp" class="form-gelap">
+        <input id="rsvpNama" required placeholder="Nama Anda *">
+        <select id="rsvpHadir" required>
+          <option value="">Konfirmasi Kehadiran *</option>
+          <option value="Hadir">Hadir</option>
+          <option value="Tidak Hadir">Tidak Hadir</option>
+        </select>
+        <select id="rsvpJumlah" required>
+          <option value="">Jumlah *</option>
+          <option value="1 Orang">1 Orang</option>
+          <option value="2 Orang">2 Orang</option>
+        </select>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+      <p id="rsvpOk" class="hidden pesan-sukses terang">Terima kasih — konfirmasi Anda tercatat di buku tamu di bawah.</p>
+    </div>
+  </section>
+
+  <!-- ================= UCAPAN DOA ================= -->
+  <section class="reveal foto-bg" id="doa">
+    <img class="bg-foto blur" id="bgUcapan" src="assets/galeri-01.jpg" alt="" aria-hidden="true">
+    <div class="overlay terang"></div>
+    <div class="di-atas-foto">
+      <div class="judul-section">
+        <p class="script">Ucapan</p>
+        <h2>Doa</h2>
+      </div>
+      <div class="frosted">
+        <p class="sub">Berikan harapan dan doa tulus Anda di sini, karena kami sangat bersemangat untuk memulai perjalanan baru bersama.</p>
+        <form id="formUcapan">
+          <input id="ucapanNama" readonly placeholder="Nama Anda">
+          <textarea id="ucapanIsi" rows="3" required placeholder="Silakan kasih ucapan di bawah ini"></textarea>
+          <button class="btn" type="submit">Kirim</button>
+        </form>
+      </div>
+      <div id="daftarUcapan" style="text-align:left;margin-top:24px"><!-- diisi js/app.js --></div>
+    </div>
+  </section>
+
+  <!-- ================= TERIMA KASIH ================= -->
+  <section class="reveal penutup" id="penutup">
+    <div class="arch-frame kecil">
+      <img id="fotoPenutup" src="assets/galeri-10.jpg" alt="Foto Budi & Santi">
+    </div>
+    <p class="script-judul">Terima Kasih</p>
+    <h2 class="nama-besar"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></h2>
+    <img class="gonjong-icon" src="assets/rumah-gadang-icon.png" alt="Ikon Rumah Gadang">
+    <p class="sub">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p><b>Saranwak</b> — Undangan Digital</p>
+  <p style="margin-top:6px">Template contoh — nama, tanggal, tempat, dan rekening masih data contoh. Edit di <b>js/data.js</b>.</p>
+</footer>
+
+</div><!-- /.kolom -->
+
+<!-- Lightbox galeri -->
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-label="Foto galeri">
+  <div class="lb-bar">
+    <span id="lbCounter">1 / 12</span>
+    <span class="lb-tools">
+      <button id="lbZoom" aria-label="Perbesar">+</button>
+      <button id="lbFull" aria-label="Layar penuh">⛶</button>
+      <button id="lbTutup" aria-label="Tutup">×</button>
+    </span>
+  </div>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Foto sebelumnya">‹</button>
+  <figure>
+    <img id="lbGambar" src="" alt="Foto galeri">
+    <figcaption id="lbCaption"></figcaption>
+  </figure>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Foto berikutnya">›</button>
+  <div class="lb-thumbs" id="lbThumbs"><!-- diisi js/app.js --></div>
+</div>
+
+<!-- Toast -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

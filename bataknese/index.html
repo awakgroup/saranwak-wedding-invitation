@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budi &amp; Santi — Bataknese · Undangan Pernikahan</title>
+<meta name="description" content="Undangan pernikahan Budi & Santi — Minggu, 14 Februari 2027, Padang, Sumatera Barat. Tema Bataknese: ulos, gorga, dan Rumah Bolon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Great+Vibes&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Foto fixed kiri (hanya desktop) -->
+<div class="panel-kiri" aria-hidden="true">
+  <img id="fotoKiri" src="assets/foto-fixed-kiri.jpg" alt="">
+  <div class="panel-kiri-overlay"></div>
+  <div class="panel-kiri-teks">
+    <p class="kicker">The Wedding Of</p>
+    <p class="script-nama"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></p>
+    <p><span data-tanggal-singkat>14 · 02 · 2027</span></p>
+  </div>
+</div>
+
+<!-- ================= COVER (layar penuh) ================= -->
+<div class="cover" id="cover">
+  <img class="cover-bg" id="coverBg" src="assets/cover-batak.jpg" alt="Pasangan pengantin busana Batak">
+  <div class="cover-overlay"></div>
+  <div class="cover-isi">
+    <p class="kicker">The Wedding Of</p>
+    <h1><span data-nama="pria">Budi</span> <em>&amp;</em> <span data-nama="wanita">Santi</span></h1>
+    <p class="tanggal-cover"><span data-tanggal-singkat>14 · 02 · 2027</span></p>
+    <p class="dear">Kepada Yth.<br><b id="namaTamu">Tamu Undangan</b></p>
+    <button class="btn-outline" id="btnBuka">Buka Undangan</button>
+  </div>
+</div>
+
+<div class="kolom">
+
+<main id="isi">
+
+  <!-- ================= HERO ================= -->
+  <section class="reveal hero" id="hero">
+    <div class="pita-ulos" aria-hidden="true"></div>
+    <img class="hero-perkamen" id="imgPerkamen" src="assets/hero-perkamen.jpg" alt="Ilustrasi desa Batak: hutan pinus, danau, dan Rumah Bolon">
+    <div class="hero-panel">
+      <p class="script-nama"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></p>
+      <p class="hero-tanggal"><span data-tanggal-singkat>14 · 02 · 2027</span></p>
+      <svg class="gorga" viewBox="0 0 200 24" aria-hidden="true"><path d="M4 12 Q25 2 50 12 T96 12 T150 12 T196 12" fill="none" stroke="#c9a227" stroke-width="2"/><circle cx="100" cy="12" r="4" fill="#c9a227"/></svg>
+    </div>
+  </section>
+
+  <!-- ================= SAVE THE DATE / AYAT ================= -->
+  <section class="reveal ayat-section" id="saveTheDate">
+    <div class="arch-panel">
+      <svg class="ikon-bolon" viewBox="0 0 120 84" aria-hidden="true"><path d="M8 42 Q28 8 60 20 Q92 8 112 42 Q92 34 60 46 Q28 34 8 42 Z" fill="#a31f2c"/><path d="M26 46 L31 72 L89 72 L94 46 Z" fill="#7a1f1f"/><rect x="33" y="72" width="5" height="9" fill="#7a1f1f"/><rect x="82" y="72" width="5" height="9" fill="#7a1f1f"/><path d="M60 48 L68 60 L52 60 Z" fill="#c9a227"/></svg>
+      <p class="script-judul">Dengan Penuh Syukur</p>
+      <blockquote>&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</blockquote>
+      <p class="sumber-ayat">QS. Ar-Rum: 21</p>
+    </div>
+    <div class="count" id="countdown">
+      <div><b id="d">–</b><span>Hari</span></div>
+      <div><b id="h">–</b><span>Jam</span></div>
+      <div><b id="m">–</b><span>Menit</span></div>
+      <div><b id="s">–</b><span>Detik</span></div>
+    </div>
+    <div class="pita-merah">
+      <a id="btnKalender" href="#" target="_blank" rel="noopener">Save The Date</a>
+    </div>
+  </section>
+
+  <!-- ================= MEMPELAI ================= -->
+  <section class="reveal" id="mempelai">
+    <p class="script-judul">Groom &amp; Bride</p>
+    <p class="sub">Puji dan syukur ke hadirat Tuhan Yang Maha Esa atas kasih-Nya, kami bermaksud menyelenggarakan acara pernikahan:</p>
+    <div class="couple" id="kartuMempelai"><!-- diisi js/app.js --></div>
+    <img class="foto-jendela" id="imgJendela" src="assets/pasangan-jendela.jpg" alt="Budi & Santi di depan jendela, busana Batak">
+  </section>
+
+  <!-- ================= ACARA ================= -->
+  <section class="reveal" id="acara">
+    <p class="sub">Dengan mengucap puji dan syukur kepada Tuhan, kami bermaksud mengundang Anda untuk dapat menghadiri acara pernikahan kami yang akan dilaksanakan pada:</p>
+    <div id="daftarAcara"><!-- diisi js/app.js --></div>
+  </section>
+
+  <!-- ================= WEDDING GIFT ================= -->
+  <section class="reveal" id="gift">
+    <div class="kartu-tebal">
+      <p class="script-judul merah">Wedding Gift</p>
+      <p class="sub">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
+      <p style="margin-top:16px"><button class="btn" id="btnBukaGift">Lihat Rekening &amp; Kado</button></p>
+    </div>
+  </section>
+
+  <!-- ================= LIVE STREAMING ================= -->
+  <section class="reveal" id="live">
+    <div class="kartu-tebal">
+      <p class="script-judul merah">Live Streaming</p>
+      <p class="sub" id="liveKet">Kami mengajak Anda yang tidak bisa hadir langsung untuk bergabung pada momen spesial kami melalui siaran langsung secara virtual.</p>
+      <p style="margin-top:16px"><button class="btn" id="btnJoinLive">Tonton Live</button></p>
+      <p class="note hidden" id="livePesan">Tautan live streaming akan dibagikan menjelang hari-H.</p>
+    </div>
+  </section>
+
+  <!-- ================= MOMEN BERSAMA ================= -->
+  <section class="reveal momen" id="momen">
+    <p class="script-judul emas">Momen Bersama</p>
+    <div class="video-slot">
+      <span class="video-ikon" aria-hidden="true">▶</span>
+      <p>Video prewedding akan tampil di sini</p>
+      <p class="video-note">Mempelai dapat menambahkan video prewedding nanti — slot ini sengaja dikosongkan, bukan video pasangan lain.</p>
+    </div>
+    <div class="galeri-grid" id="daftarGaleri"><!-- diisi js/app.js --></div>
+    <p class="sub kecil terang">Klik foto untuk memperbesar.</p>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section class="reveal rsvp-section" id="rsvp">
+    <h2 class="judul-kapital">Konfirmasi Kehadiran</h2>
+    <p class="sub">Kami tidak sabar menunggu hari pernikahan kami bersama Bapak/Ibu/Saudara/i, mohon konfirmasi kehadiran melalui form RSVP di bawah ini.</p>
+    <form id="formRsvp">
+      <input id="rsvpNama" required placeholder="Nama *">
+      <input id="rsvpAlamat" placeholder="Alamat">
+      <select id="rsvpHadir" aria-label="Konfirmasi kehadiran">
+        <option value="Hadir" selected>Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+      <select id="rsvpJumlah" aria-label="Jumlah tamu">
+        <option value="1 Tamu" selected>1 Tamu</option>
+        <option value="2 Tamu">2 Tamu</option>
+        <option value="3 Tamu">3 Tamu</option>
+        <option value="4 Tamu">4 Tamu</option>
+        <option value="5 Tamu">5 Tamu</option>
+      </select>
+      <button class="btn" type="submit">Konfirmasi</button>
+    </form>
+    <p id="rsvpOk" class="hidden pesan-sukses">Terima kasih — konfirmasi Anda tercatat di buku tamu di bawah.</p>
+  </section>
+
+  <!-- ================= KISAH KITA ================= -->
+  <section class="reveal kisah-section" id="kisah">
+    <p class="script-judul emas">Kisah Kita</p>
+    <div id="daftarKisah"><!-- diisi js/app.js --></div>
+  </section>
+
+  <!-- ================= SHARING MEMORIES ================= -->
+  <section class="reveal" id="memories">
+    <div class="ikon-lingkaran" aria-hidden="true">
+      <svg viewBox="0 0 120 84"><path d="M8 42 Q28 8 60 20 Q92 8 112 42 Q92 34 60 46 Q28 34 8 42 Z" fill="#f2e6d2"/><path d="M26 46 L31 72 L89 72 L94 46 Z" fill="#f2e6d2"/><rect x="33" y="72" width="5" height="9" fill="#f2e6d2"/><rect x="82" y="72" width="5" height="9" fill="#f2e6d2"/><path d="M60 48 L68 60 L52 60 Z" fill="#c9a227"/></svg>
+    </div>
+    <p class="script-judul merah">Sharing Memories</p>
+    <p class="sub">Mari bantu kami mengabadikan momen spesial ini dengan membagikan foto Anda dari acara pernikahan kami.</p>
+    <p style="margin-top:16px">
+      <button class="btn" id="btnUploadFoto">Upload Foto</button>
+      <input type="file" id="inputFoto" accept="image/*" class="hidden">
+    </p>
+    <p id="uploadOk" class="hidden pesan-sukses">Terima kasih! Foto Anda sudah dipilih — di halaman contoh ini foto hanya tersimpan di perangkat Anda.</p>
+  </section>
+
+  <!-- ================= QR CHECK-IN ================= -->
+  <section class="reveal" id="qrcheckin">
+    <div class="ikon-lingkaran" aria-hidden="true">
+      <svg viewBox="0 0 120 84"><path d="M8 42 Q28 8 60 20 Q92 8 112 42 Q92 34 60 46 Q28 34 8 42 Z" fill="#f2e6d2"/><path d="M26 46 L31 72 L89 72 L94 46 Z" fill="#f2e6d2"/><rect x="33" y="72" width="5" height="9" fill="#f2e6d2"/><rect x="82" y="72" width="5" height="9" fill="#f2e6d2"/><path d="M60 48 L68 60 L52 60 Z" fill="#c9a227"/></svg>
+    </div>
+    <p class="script-judul merah">QR Check-in</p>
+    <p class="sub">Tunjukkan QR code untuk check-in lokasi kepada petugas agar dipindai — data terintegrasi dengan sistem buku tamu digital. Klik tombol berikut untuk mengunduh QR code Anda.</p>
+    <p style="margin-top:16px"><button class="btn" id="btnBukaQr">Download QR</button></p>
+  </section>
+
+  <!-- ================= UCAPAN & DOA ================= -->
+  <section class="reveal doa-section" id="doa">
+    <svg class="ikon-bolon emas" viewBox="0 0 120 84" aria-hidden="true"><path d="M8 42 Q28 8 60 20 Q92 8 112 42 Q92 34 60 46 Q28 34 8 42 Z" fill="#c9a227"/><path d="M26 46 L31 72 L89 72 L94 46 Z" fill="#c9a227"/><rect x="33" y="72" width="5" height="9" fill="#c9a227"/><rect x="82" y="72" width="5" height="9" fill="#c9a227"/><path d="M60 48 L68 60 L52 60 Z" fill="#7a1f1f"/></svg>
+    <p class="script-judul emas">Ucapan &amp; Doa</p>
+    <p class="sub terang">Berikan harapan dan doa tulus Anda di sini karena kami sangat bersemangat untuk memulai perjalanan baru ini bersama.</p>
+    <form id="formUcapan">
+      <input id="ucapanNama" placeholder="Nama lengkap Anda">
+      <textarea id="ucapanIsi" rows="3" required placeholder="Tulis ucapan Anda di sini"></textarea>
+      <button class="btn gelap" type="submit">Kirim</button>
+    </form>
+    <div id="daftarUcapan" style="margin-top:24px"><!-- diisi js/app.js --></div>
+    <div class="pagination" id="pagination">
+      <button id="pagePrev" aria-label="Halaman sebelumnya">← Previous</button>
+      <span id="pageInfo">1 / 1</span>
+      <button id="pageNext" aria-label="Halaman berikutnya">Next →</button>
+    </div>
+  </section>
+
+  <!-- ================= PENUTUP ================= -->
+  <section class="reveal penutup" id="penutup">
+    <div class="arch-frame kecil">
+      <img id="fotoPenutup" src="assets/pasangan-jendela.jpg" alt="Foto Budi & Santi">
+    </div>
+    <p class="sub">Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kami.</p>
+    <p class="script-judul"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></p>
+  </section>
+
+</main>
+
+<footer>
+  <p><b>Saranwak</b> — Undangan Digital</p>
+  <p style="margin-top:6px">Template contoh — nama, tanggal, tempat, dan rekening masih data contoh. Edit di <b>js/data.js</b>.</p>
+</footer>
+
+</div><!-- /.kolom -->
+
+<!-- Tombol musik fixed -->
+<button class="btn-musik" id="btnMusik" aria-label="Putar / Jeda musik">♪</button>
+
+<!-- Drawer Wedding Gift -->
+<div class="backdrop hidden" id="backdropGift"></div>
+<aside class="drawer" id="drawerGift" role="dialog" aria-label="Wedding Gift">
+  <button class="drawer-tutup" data-tutup="drawerGift" aria-label="Tutup">×</button>
+  <h3 class="drawer-judul">Wedding Gift</h3>
+  <div id="daftarAmplop"><!-- diisi js/app.js --></div>
+  <div class="kado-card">
+    <h4>Kirim Kado</h4>
+    <p id="alamatKado"></p>
+    <button class="btn kecil" data-salin-target="alamatKado" style="margin-top:10px">Salin Alamat</button>
+  </div>
+  <div class="konfirmasi-card">
+    <h4>Konfirmasi Pengiriman</h4>
+    <form id="formGift">
+      <input id="giftNama" required placeholder="Nama Pengirim *">
+      <select id="giftJenis" aria-label="Jenis hadiah">
+        <option value="Transfer uang">Transfer uang</option>
+        <option value="Kirim kado">Kirim kado</option>
+      </select>
+      <select id="giftTujuan" aria-label="Tujuan">
+        <option value="Bank Nagari">Bank Nagari</option>
+        <option value="BSI">BSI</option>
+        <option value="DANA">DANA</option>
+        <option value="GoPay">GoPay</option>
+        <option value="Kado">Kado</option>
+      </select>
+      <input id="giftNominal" placeholder="Nominal" inputmode="numeric">
+      <button class="btn" type="submit">Kirim Konfirmasi</button>
+    </form>
+    <p id="giftOk" class="hidden pesan-sukses">Terima kasih — konfirmasi pengiriman Anda tercatat di halaman ini.</p>
+  </div>
+</aside>
+
+<!-- Drawer QR Check-in -->
+<div class="backdrop hidden" id="backdropQr"></div>
+<aside class="drawer" id="drawerQr" role="dialog" aria-label="QR E-Invitation">
+  <button class="drawer-tutup" data-tutup="drawerQr" aria-label="Tutup">×</button>
+  <h3 class="drawer-judul">QR E-Invitation</h3>
+  <p class="sub">Silakan screenshot atau download QR code di bawah sebagai entry pass di lokasi acara.</p>
+  <div class="qr-card">
+    <p class="qr-kicker">The Wedding Of</p>
+    <p class="qr-nama"><span data-nama="pria">Budi</span> &amp; <span data-nama="wanita">Santi</span></p>
+    <p class="qr-tanggal"><span data-tanggal>Minggu, 14 Februari 2027</span></p>
+    <p class="qr-tamu">Kepada YTH,<br><b id="qrNamaTamu">Tamu Undangan</b></p>
+    <div id="qrBox"></div>
+    <p class="qr-fallback hidden" id="qrFallback">QR tidak dapat dimuat (butuh internet untuk pustaka QR).</p>
+    <p class="qr-note">QR ini dipindai petugas untuk mencatat kehadiran Anda.</p>
+  </div>
+  <p style="margin-top:16px"><button class="btn" id="btnDownloadQr">Download E-Invitation</button></p>
+</aside>
+
+<!-- Lightbox galeri -->
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-label="Foto galeri">
+  <div class="lb-bar">
+    <span id="lbCounter">1 / 7</span>
+    <span class="lb-tools">
+      <button id="lbZoom" aria-label="Perbesar">+</button>
+      <button id="lbFull" aria-label="Layar penuh">⛶</button>
+      <button id="lbShare" aria-label="Bagikan">↗</button>
+      <button id="lbTutup" aria-label="Tutup">×</button>
+    </span>
+  </div>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Foto sebelumnya">‹</button>
+  <figure>
+    <img id="lbGambar" src="" alt="Foto galeri">
+    <figcaption id="lbCaption"></figcaption>
+  </figure>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Foto berikutnya">›</button>
+</div>
+
+<!-- Toast -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
