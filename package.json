@@ -4,10 +4,7 @@
   "private": true,
   "description": "Saranwak Digital Wedding Invitation - 3 Themes",
   "scripts": {
-    "deploy": "wrangler deploy",
-    "preview": "wrangler dev"
-  },
-  "devDependencies": {
-    "wrangler": "^3.90.0"
+    "build": "npx wrangler deploy",
+    "deploy": "npx wrangler deploy"
   }
 }
