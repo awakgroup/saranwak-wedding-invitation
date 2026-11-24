@@ -10,7 +10,7 @@ Satu project berisi 3 tema undangan digital dengan data yang sama
 | **Bataknese** | `bataknese/` | Nuansa Batak: ulos, gorga, Rumah Bolon, layout split desktop, drawer gift & QR check-in, 14 section |
 
 Semua artwork dibuat baru (bukan file vendor) dan semua fitur telah ditingkatkan:
-- **Generator Link & Pesan WhatsApp**: Buat link undangan personal dan format pesan WhatsApp sopan siap kirim langsung dari `index.html`.
+- **Katalog & Pemilih Template Responsif (`index.html`)**: Landing page modern khusus untuk memilih template undangan dengan filter kategori, live preview device (Mobile/Desktop), tabel perbandingan fitur, dan alur pemesanan mudah.
 - **100% Offline-First QR Check-in**: Pustaka QR Code lokal mandiri (`js/qrcode.min.js`) tanpa ketergantungan CDN internet.
 - **Musik Latar Sintesis WebAudio**: Melodi lembut romantis bawaan tanpa perlu file mp3 eksternal, dengan tombol kontrol mengambang (floating music toggle) yang otomatis berputar saat "Buka Undangan".
 - **Dock Navigasi Mengambang (Floating Quick Menu)**: Navigasi cepat berpindah antar-section dengan indikator section aktif otomatis.
