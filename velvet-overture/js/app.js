@@ -366,8 +366,10 @@
     return wrap;
   }
 
-  /* ---------- Buku Tamu & RSVP (LocalStorage) ---------- */
+  /* ---------- Buku Tamu & RSVP (Cloudflare D1 + LocalStorage) ---------- */
   var STORAGE_KEY = "saranwak_velvet_ucapan";
+  var TEMA_SLUG = "velvet-overture";
+
   function ambilLokal() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -379,6 +381,21 @@
       var arr = ambilLokal();
       arr.unshift(item);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(arr.slice(0, 50)));
+    } catch (e) {}
+  }
+
+  function kirimUcapanKeD1(item) {
+    try {
+      fetch("/api/ucapan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tema: TEMA_SLUG,
+          nama: item.nama,
+          hadir: item.hadir,
+          isi: item.isi
+        })
+      }).catch(function () {});
     } catch (e) {}
   }
 
@@ -405,6 +422,24 @@
   }
   muatSemuaUcapan();
 
+  // Fetch live wishes from Cloudflare D1
+  function muatUcapanD1() {
+    fetch("/api/ucapan?tema=" + TEMA_SLUG)
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          daftarUcapan.innerHTML = "";
+          var gabungan = res.data.concat(data.ucapanContoh);
+          gabungan.forEach(function (u) {
+            daftarUcapan.appendChild(buatUcapan(u.nama, u.hadir, u.isi, u.waktu));
+          });
+          perbaruiStatBadge();
+        }
+      })
+      .catch(function () {});
+  }
+  muatUcapanD1();
+
   /* ---------- Form RSVP ---------- */
   $("formRsvp").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -419,6 +454,7 @@
     var waktuStr = "Baru saja";
     var item = { nama: nama, hadir: label, isi: ucapan, waktu: waktuStr };
     simpanLokal(item);
+    kirimUcapanKeD1(item);
     daftarUcapan.prepend(buatUcapan(nama, label, ucapan, waktuStr));
     perbaruiStatBadge();
     $("rsvpOk").classList.remove("hidden");
@@ -449,6 +485,7 @@
     var waktuStr = "Baru saja";
     var item = { nama: nama, hadir: "Doa", isi: isi, waktu: waktuStr };
     simpanLokal(item);
+    kirimUcapanKeD1(item);
     daftarUcapan.prepend(buatUcapan(nama, "Doa", isi, waktuStr));
     $("ucapanIsi").value = "";
     toast("Terima kasih, " + nama + "! Ucapanmu sudah tampil di buku tamu.");

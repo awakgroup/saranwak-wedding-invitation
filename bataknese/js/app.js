@@ -383,8 +383,10 @@
     }
   });
 
-  /* ---------- Buku tamu + paginasi (LocalStorage) ---------- */
+  /* ---------- Buku tamu + paginasi (Cloudflare D1 + LocalStorage) ---------- */
   var STORAGE_KEY = "saranwak_batak_ucapan";
+  var TEMA_SLUG = "bataknese";
+
   function ambilLokal() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -399,9 +401,38 @@
     } catch (e) {}
   }
 
+  function kirimUcapanKeD1(item) {
+    try {
+      fetch("/api/ucapan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tema: TEMA_SLUG,
+          nama: item.nama,
+          hadir: item.hadir,
+          isi: item.isi
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
   var PER_HALAMAN = 5;
   var semuaUcapan = ambilLokal().concat(data.ucapanContoh);
   var halamanAktif = 1;
+
+  // Live sync from Cloudflare D1
+  function muatUcapanD1() {
+    fetch("/api/ucapan?tema=" + TEMA_SLUG)
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          semuaUcapan = res.data.concat(data.ucapanContoh);
+          tampilkanHalaman(1);
+        }
+      })
+      .catch(function () {});
+  }
+  muatUcapanD1();
 
   function buatUcapan(nama, hadir, isi, waktu) {
     var wrap = document.createElement("div");
@@ -471,6 +502,7 @@
     var waktuStr = "Baru saja";
     var item = { nama: nama, hadir: label, isi: "", waktu: waktuStr };
     simpanLokal(item);
+    kirimUcapanKeD1(item);
     semuaUcapan.unshift(item);
     tampilkanHalaman(1);
     $("rsvpOk").classList.remove("hidden");
@@ -500,6 +532,7 @@
     var waktuStr = "Baru saja";
     var item = { nama: nama, hadir: "Doa", isi: isi, waktu: waktuStr };
     simpanLokal(item);
+    kirimUcapanKeD1(item);
     semuaUcapan.unshift(item);
     tampilkanHalaman(1);
     $("ucapanIsi").value = "";
