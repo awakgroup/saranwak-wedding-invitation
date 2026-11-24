@@ -338,7 +338,7 @@
   });
 
   /* ---------- Buku tamu ---------- */
-  function buatUcapan(nama, hadir, isi) {
+  function buatUcapan(nama, hadir, isi, waktu) {
     var wrap = document.createElement("div");
     wrap.className = "ucapan";
     var kepala = document.createElement("div");
@@ -351,17 +351,17 @@
     badge.textContent = hadir;
     kepala.appendChild(namaEl);
     kepala.appendChild(badge);
-    wrap.appendChild(kepala);
-    if (isi) {
-      var p = document.createElement("p");
-      p.textContent = isi;
-      wrap.appendChild(p);
-    }
     if (waktu) {
       var waktuEl = document.createElement("span");
       waktuEl.className = "waktu";
       waktuEl.textContent = waktu;
       kepala.appendChild(waktuEl);
+    }
+    wrap.appendChild(kepala);
+    if (isi) {
+      var p = document.createElement("p");
+      p.textContent = isi;
+      wrap.appendChild(p);
     }
     return wrap;
   }
