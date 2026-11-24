@@ -383,12 +383,27 @@
     }
   });
 
-  /* ---------- Buku tamu + paginasi ---------- */
+  /* ---------- Buku tamu + paginasi (LocalStorage) ---------- */
+  var STORAGE_KEY = "saranwak_batak_ucapan";
+  function ambilLokal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function simpanLokal(item) {
+    try {
+      var arr = ambilLokal();
+      arr.unshift(item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr.slice(0, 50)));
+    } catch (e) {}
+  }
+
   var PER_HALAMAN = 5;
-  var semuaUcapan = data.ucapanContoh.slice();
+  var semuaUcapan = ambilLokal().concat(data.ucapanContoh);
   var halamanAktif = 1;
 
-  function buatUcapan(nama, hadir, isi) {
+  function buatUcapan(nama, hadir, isi, waktu) {
     var wrap = document.createElement("div");
     wrap.className = "ucapan";
     var kepala = document.createElement("div");
@@ -401,6 +416,12 @@
     badge.textContent = hadir;
     kepala.appendChild(namaEl);
     kepala.appendChild(badge);
+    if (waktu) {
+      var waktuEl = document.createElement("span");
+      waktuEl.className = "waktu";
+      waktuEl.textContent = waktu;
+      kepala.appendChild(waktuEl);
+    }
     wrap.appendChild(kepala);
     if (isi) {
       var p = document.createElement("p");
@@ -412,17 +433,28 @@
   function totalHalaman() {
     return Math.max(1, Math.ceil(semuaUcapan.length / PER_HALAMAN));
   }
+  function perbaruiStatBadge() {
+    var badge = $("rsvpStatBadge");
+    if (!badge) return;
+    var hadir = semuaUcapan.filter(function (u) {
+      var h = (u.hadir || "").toLowerCase();
+      return h.includes("hadir") && !h.includes("tidak");
+    }).length;
+    badge.textContent = "✓ " + hadir + " Tamu Mengonfirmasi Hadir";
+  }
+
   function tampilkanHalaman(halaman) {
     halamanAktif = Math.min(Math.max(1, halaman), totalHalaman());
     var daftar = $("daftarUcapan");
     daftar.innerHTML = "";
     var mulai = (halamanAktif - 1) * PER_HALAMAN;
     semuaUcapan.slice(mulai, mulai + PER_HALAMAN).forEach(function (u) {
-      daftar.appendChild(buatUcapan(u.nama, u.hadir, u.isi));
+      daftar.appendChild(buatUcapan(u.nama, u.hadir, u.isi, u.waktu));
     });
     $("pageInfo").textContent = halamanAktif + " / " + totalHalaman();
     $("pagePrev").disabled = halamanAktif <= 1;
     $("pageNext").disabled = halamanAktif >= totalHalaman();
+    perbaruiStatBadge();
   }
   $("pagePrev").addEventListener("click", function () { tampilkanHalaman(halamanAktif - 1); });
   $("pageNext").addEventListener("click", function () { tampilkanHalaman(halamanAktif + 1); });
@@ -436,9 +468,25 @@
     var hadir = $("rsvpHadir").value;
     var jumlah = $("rsvpJumlah").value;
     var label = hadir === "Hadir" ? "HADIR · " + jumlah.toUpperCase() : "TIDAK HADIR";
-    semuaUcapan.unshift({ nama: nama, hadir: label, isi: "" });
+    var waktuStr = "Baru saja";
+    var item = { nama: nama, hadir: label, isi: "", waktu: waktuStr };
+    simpanLokal(item);
+    semuaUcapan.unshift(item);
     tampilkanHalaman(1);
     $("rsvpOk").classList.remove("hidden");
+
+    var waWrap = $("rsvpWaWrap");
+    if (waWrap) {
+      var waPhone = data.whatsapp || "6281234567890";
+      var waMsg = "Halo " + data.pria.nama + " & " + data.wanita.nama + ",\n"
+        + "Saya *" + nama + "* mengonfirmasi kehadiran untuk acara pernikahan kalian:\n"
+        + "Status: *" + label + "*\n\n"
+        + "Horas & Terima kasih!";
+      var waUrl = "https://api.whatsapp.com/send?phone=" + waPhone + "&text=" + encodeURIComponent(waMsg);
+      waWrap.innerHTML = '<a class="btn-wa-konfirmasi" href="' + waUrl + '" target="_blank" rel="noopener">💬 Kirim Konfirmasi ke WhatsApp Mempelai</a>';
+      waWrap.classList.remove("hidden");
+    }
+
     this.reset();
     toast("Terima kasih, " + nama + "! Konfirmasi Anda tercatat di buku tamu.");
   });
@@ -449,7 +497,10 @@
     var nama = $("ucapanNama").value.trim() || "Tamu Undangan";
     var isi = $("ucapanIsi").value.trim();
     if (!isi) { return; }
-    semuaUcapan.unshift({ nama: nama, hadir: "Doa", isi: isi });
+    var waktuStr = "Baru saja";
+    var item = { nama: nama, hadir: "Doa", isi: isi, waktu: waktuStr };
+    simpanLokal(item);
+    semuaUcapan.unshift(item);
     tampilkanHalaman(1);
     $("ucapanIsi").value = "";
     toast("Terima kasih, " + nama + "! Ucapanmu sudah tampil di buku tamu.");
@@ -498,8 +549,9 @@
     indeksNada = 0;
     waktuNadaBerikut = ctxAudio.currentTime + 0.1;
     sedangMain = true;
-    $("btnMusik").textContent = "❚❚";
-    $("btnMusik").classList.add("main");
+    var icon = $("musicIcon");
+    if (icon) { icon.classList.add("spin"); icon.textContent = "♫"; }
+    $("btnMusik").setAttribute("aria-label", "Jeda Musik");
     clearInterval(timerJadwal);
     timerJadwal = setInterval(jadwalkan, 200);
     jadwalkan();
@@ -508,12 +560,13 @@
     sedangMain = false;
     clearInterval(timerJadwal);
     if (ctxAudio && ctxAudio.suspend) { ctxAudio.suspend(); }
-    $("btnMusik").textContent = "♪";
-    $("btnMusik").classList.remove("main");
+    var icon = $("musicIcon");
+    if (icon) { icon.classList.remove("spin"); icon.textContent = "▶"; }
+    $("btnMusik").setAttribute("aria-label", "Putar Musik");
   }
   $("btnMusik").addEventListener("click", function () {
-    if (sedangMain) { jedaMusik(); }
-    else { mulaiMusik(); }
+    if (sedangMain) { jedaMusik(); toast("Musik dijeda"); }
+    else { mulaiMusik(); toast("Memutar musik latar ♫"); }
   });
 
   /* ---------- Buka undangan ---------- */
@@ -521,10 +574,29 @@
     var cover = $("cover");
     cover.classList.add("hilang");
     setTimeout(function () { cover.style.display = "none"; }, 900);
+    var dock = $("bottomDock");
+    if (dock) { dock.classList.remove("hidden"); }
     var target = $("saveTheDate");
     if (target && target.scrollIntoView) { target.scrollIntoView({ behavior: "smooth" }); }
     mulaiMusik();
   });
+
+  /* ---------- Bottom Dock Active Tracking ---------- */
+  var dockItems = document.querySelectorAll(".dock-item");
+  var sections = document.querySelectorAll("main section[id], #saveTheDate, #hero");
+  if ("IntersectionObserver" in window) {
+    var dockObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          var id = en.target.id;
+          dockItems.forEach(function (di) {
+            di.classList.toggle("active", di.getAttribute("data-nav") === id || di.getAttribute("href") === "#" + id);
+          });
+        }
+      });
+    }, { threshold: 0.25 });
+    sections.forEach(function (s) { dockObs.observe(s); });
+  }
 
   /* ---------- Animasi muncul saat scroll ---------- */
   var revealEls = document.querySelectorAll(".reveal");

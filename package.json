@@ -1,0 +1,9 @@
+{
+  "name": "saranwak-wedding-invitation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Saranwak Digital Wedding Invitation - 3 Themes",
+  "scripts": {
+    "build": "echo 'Static HTML site ready'"
+  }
+}

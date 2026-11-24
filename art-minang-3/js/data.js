@@ -140,6 +140,10 @@ var UNDANGAN = {
     ikonRumahGadang: "assets/rumah-gadang-icon.png"
   },
 
+  /* ---------- Kontak WhatsApp & Musik Latar (Opsional) ---------- */
+  whatsapp: "6281234567890",      // nomor WA untuk tombol konfirmasi RSVP tamu (format: 628...)
+  musik: "",                      // kosong = pakai melodi sintesis Minang bawaan. Atau isi "assets/musik.mp3"
+
   /* ---------- Ucapan contoh (tampil di buku tamu) ---------- */
   ucapanContoh: [
     { nama: "Mak Tuo & Dunsanak Bukittinggi", hadir: "Hadir", isi: "Salamaik baralek, Budi & Santi! Samoga rumah tangga kalian sakinah, mawaddah, warahmah." },

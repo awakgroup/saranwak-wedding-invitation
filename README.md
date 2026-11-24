@@ -9,18 +9,22 @@ Satu project berisi 3 tema undangan digital dengan data yang sama
 | **Velvet Overture** | `velvet-overture/` | Teater beludru burgundy: chandelier, gramofon, kalender, rundown, galeri scrapbook, 13 section |
 | **Bataknese** | `bataknese/` | Nuansa Batak: ulos, gorga, Rumah Bolon, layout split desktop, drawer gift & QR check-in, 14 section |
 
-Semua artwork dibuat baru (bukan file vendor) dan semua cacat demo
-asli sudah diperbaiki: tanggal konsisten, nama konsisten, Save The
-Date membuka Google Calendar yang benar, tombol salin ada konfirmasi,
-dan tanpa branding vendor. Footer tiap tema: **Saranwak — Undangan
-Digital**.
+Semua artwork dibuat baru (bukan file vendor) dan semua fitur telah ditingkatkan:
+- **Generator Link & Pesan WhatsApp**: Buat link undangan personal dan format pesan WhatsApp sopan siap kirim langsung dari `index.html`.
+- **100% Offline-First QR Check-in**: Pustaka QR Code lokal mandiri (`js/qrcode.min.js`) tanpa ketergantungan CDN internet.
+- **Musik Latar Sintesis WebAudio**: Melodi lembut romantis bawaan tanpa perlu file mp3 eksternal, dengan tombol kontrol mengambang (floating music toggle) yang otomatis berputar saat "Buka Undangan".
+- **Dock Navigasi Mengambang (Floating Quick Menu)**: Navigasi cepat berpindah antar-section dengan indikator section aktif otomatis.
+- **Buku Tamu & RSVP Persisten (LocalStorage)**: RSVP dan ucapan doa tersimpan di perangkat lokal dilengkapi tombol konfirmasi instan via WhatsApp ke nomor pengantin.
+- **Konsistensi Data & Branding**: Tanggal konsisten, Save The Date membuka Google Calendar, tombol salin dengan konfirmasi toast, dan footer: **Saranwak — Undangan Digital**.
 
 ## Cara membuka
 
-Klik ganda `index.html` di folder ini — landing page pemilih tema
-terbuka, lalu klik "Lihat Undangan" pada tema yang mau dilihat.
-Atau buka langsung `art-minang-3/index.html`,
-`velvet-overture/index.html`, atau `bataknese/index.html`.
+Buka `index.html` langsung di peramban (browser) atau jalankan server lokal:
+```bash
+python3 -m http.server 8080
+```
+Lalu akses `http://localhost:8080`. Atau klik ganda `index.html`,
+`art-minang-3/index.html`, `velvet-overture/index.html`, atau `bataknese/index.html`.
 
 Tidak perlu server, tidak perlu install apa pun. Font Google, pustaka
 QR, dan tautan Google Maps dimuat dari internet; tanpa internet,

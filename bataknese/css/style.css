@@ -529,13 +529,130 @@ footer b { color: var(--emas); }
 
 /* ---------- Toast ---------- */
 .toast {
-  position: fixed; left: 50%; bottom: 26px;
+  position: fixed; left: 50%; bottom: 84px;
   transform: translateX(-50%);
-  background: #2b2118; color: #fff;
+  background: var(--hitam-gorga); color: #fff;
+  border: 1px solid var(--emas-gorga);
   padding: 12px 20px; border-radius: 999px;
   font-size: 13px; z-index: 190;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
   max-width: 90vw; text-align: center;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* ---------- Floating Music Button ---------- */
+.music-floating-btn {
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--merah-gorga);
+  border: 2px solid var(--emas-gorga);
+  color: var(--emas-gorga);
+  box-shadow: 0 8px 24px rgba(163, 31, 44, 0.45);
+  cursor: pointer;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.music-floating-btn:hover {
+  transform: scale(1.08);
+  background: #7a1520;
+}
+.music-floating-btn:active {
+  transform: scale(0.95);
+}
+.music-icon.spin {
+  display: inline-block;
+  animation: spinMusic 3.5s linear infinite;
+}
+@keyframes spinMusic {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Floating Bottom Navigation Dock ---------- */
+.bottom-dock {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 12, 12, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 999px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 149;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  max-width: 94vw;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 4px 6px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: color 0.2s, transform 0.2s;
+}
+.dock-item .dock-icon {
+  font-size: 15px;
+  margin-bottom: 1px;
+}
+.dock-item:hover, .dock-item.active {
+  color: var(--emas-gorga);
+  transform: translateY(-2px);
+}
+
+/* WhatsApp RSVP buttons & badges */
+.btn-wa-konfirmasi {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #25d366;
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  margin-top: 12px;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: background 0.2s;
+}
+.btn-wa-konfirmasi:hover {
+  background: #1eb957;
+}
+
+.rsvp-counter-badge {
+  display: inline-block;
+  background: rgba(201, 162, 39, 0.15);
+  border: 1px solid var(--emas-gorga);
+  color: var(--emas-gorga);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.ucapan .waktu {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
 }
 
 @media (max-width: 380px) {

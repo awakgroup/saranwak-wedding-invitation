@@ -142,6 +142,7 @@
       <button class="btn" type="submit">SUBMIT CONFIRMATION</button>
     </form>
     <p id="rsvpOk" class="hidden pesan-sukses">Terima kasih — konfirmasi Anda tercatat di buku tamu di bawah.</p>
+    <div id="rsvpWaWrap" class="hidden" style="margin-top:10px;"></div>
   </section>
 
   <!-- ================= 11 · WEDDING GIFT ================= -->
@@ -165,6 +166,7 @@
   <section class="reveal" id="bukuTamu">
     <h2 class="judul-section">Doa &amp; ucapan</h2>
     <p class="sub">Tuliskan doa dan ucapan terbaik Anda untuk kami.</p>
+    <div style="text-align:center;"><div id="rsvpStatBadge" class="rsvp-counter-badge">Memuat data ucapan...</div></div>
     <form id="formUcapan">
       <input id="ucapanNama" placeholder="Nama lengkap Anda">
       <textarea id="ucapanIsi" rows="3" required placeholder="Tulis ucapan Anda di sini"></textarea>
@@ -225,7 +227,44 @@
 <!-- Toast -->
 <div class="toast hidden" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<!-- Floating Music Controller -->
+<button class="music-floating-btn" id="musicFloatingBtn" aria-label="Putar / Jeda Musik" title="Musik Latar">
+  <span class="music-icon" id="musicIcon" aria-hidden="true">▶</span>
+</button>
+
+<!-- Floating Bottom Navigation Dock -->
+<nav class="bottom-dock" id="bottomDock" aria-label="Navigasi Cepat">
+  <a href="#cover" class="dock-item active" data-nav="cover" title="Cover">
+    <span class="dock-icon">🏠</span>
+    <span class="dock-label">Cover</span>
+  </a>
+  <a href="#musik" class="dock-item" data-nav="musik" title="Musik">
+    <span class="dock-icon">🎵</span>
+    <span class="dock-label">Musik</span>
+  </a>
+  <a href="#mempelai" class="dock-item" data-nav="mempelai" title="Mempelai">
+    <span class="dock-icon">💍</span>
+    <span class="dock-label">Couple</span>
+  </a>
+  <a href="#tanggal" class="dock-item" data-nav="tanggal" title="Acara">
+    <span class="dock-icon">📅</span>
+    <span class="dock-label">Acara</span>
+  </a>
+  <a href="#galeri" class="dock-item" data-nav="galeri" title="Galeri">
+    <span class="dock-icon">🖼️</span>
+    <span class="dock-label">Galeri</span>
+  </a>
+  <a href="#gift" class="dock-item" data-nav="gift" title="Kado">
+    <span class="dock-icon">🎁</span>
+    <span class="dock-label">Kado</span>
+  </a>
+  <a href="#rsvp" class="dock-item" data-nav="rsvp" title="RSVP">
+    <span class="dock-icon">✍️</span>
+    <span class="dock-label">RSVP</span>
+  </a>
+</nav>
+
+<script src="js/qrcode.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 </body>

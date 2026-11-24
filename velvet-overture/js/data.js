@@ -118,6 +118,9 @@ var UNDANGAN = {
     buket: "assets/buket-bunga.jpg"
   },
 
+  /* ---------- Kontak WhatsApp (Opsional) ---------- */
+  whatsapp: "6281234567890",      // nomor WA untuk tombol konfirmasi RSVP tamu (format: 628...)
+
   /* ---------- Ucapan contoh (tampil di buku tamu) ---------- */
   ucapanContoh: [
     { nama: "Mak Tuo & Dunsanak Bukittinggi", hadir: "Hadir", isi: "Salamaik baralek, Budi & Santi! Samoga rumah tangga kalian sakinah, mawaddah, warahmah." },

@@ -357,12 +357,53 @@
       p.textContent = isi;
       wrap.appendChild(p);
     }
+    if (waktu) {
+      var waktuEl = document.createElement("span");
+      waktuEl.className = "waktu";
+      waktuEl.textContent = waktu;
+      kepala.appendChild(waktuEl);
+    }
     return wrap;
   }
+
+  /* ---------- Buku Tamu & RSVP (LocalStorage) ---------- */
+  var STORAGE_KEY = "saranwak_velvet_ucapan";
+  function ambilLokal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function simpanLokal(item) {
+    try {
+      var arr = ambilLokal();
+      arr.unshift(item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr.slice(0, 50)));
+    } catch (e) {}
+  }
+
   var daftarUcapan = $("daftarUcapan");
-  data.ucapanContoh.forEach(function (u) {
-    daftarUcapan.appendChild(buatUcapan(u.nama, u.hadir, u.isi));
-  });
+  function perbaruiStatBadge() {
+    var badge = $("rsvpStatBadge");
+    if (!badge) return;
+    var semua = ambilLokal().concat(data.ucapanContoh);
+    var hadir = semua.filter(function (u) {
+      var h = (u.hadir || "").toLowerCase();
+      return h.includes("hadir") && !h.includes("tidak");
+    }).length;
+    badge.textContent = "✓ " + hadir + " Tamu Mengonfirmasi Hadir";
+  }
+
+  function muatSemuaUcapan() {
+    daftarUcapan.innerHTML = "";
+    var lokal = ambilLokal();
+    var gabungan = lokal.concat(data.ucapanContoh);
+    gabungan.forEach(function (u) {
+      daftarUcapan.appendChild(buatUcapan(u.nama, u.hadir, u.isi, u.waktu));
+    });
+    perbaruiStatBadge();
+  }
+  muatSemuaUcapan();
 
   /* ---------- Form RSVP ---------- */
   $("formRsvp").addEventListener("submit", function (e) {
@@ -375,8 +416,26 @@
     var jumlah = $("rsvpJumlah").value;
     var ucapan = $("rsvpUcapan").value.trim();
     var label = hadir === "Hadir" ? "HADIR · " + jumlah.toUpperCase() : "TIDAK HADIR";
-    daftarUcapan.prepend(buatUcapan(nama, label, ucapan));
+    var waktuStr = "Baru saja";
+    var item = { nama: nama, hadir: label, isi: ucapan, waktu: waktuStr };
+    simpanLokal(item);
+    daftarUcapan.prepend(buatUcapan(nama, label, ucapan, waktuStr));
+    perbaruiStatBadge();
     $("rsvpOk").classList.remove("hidden");
+
+    var waWrap = $("rsvpWaWrap");
+    if (waWrap) {
+      var waPhone = data.whatsapp || "6281234567890";
+      var waMsg = "Halo " + data.pria.nama + " & " + data.wanita.nama + ",\n"
+        + "Saya *" + nama + "* mengonfirmasi kehadiran untuk acara pernikahan kalian:\n"
+        + "Status: *" + label + "*\n"
+        + (ucapan ? "Ucapan: \"" + ucapan + "\"\n" : "")
+        + "\nTerima kasih!";
+      var waUrl = "https://api.whatsapp.com/send?phone=" + waPhone + "&text=" + encodeURIComponent(waMsg);
+      waWrap.innerHTML = '<a class="btn-wa-konfirmasi" href="' + waUrl + '" target="_blank" rel="noopener">💬 Kirim Konfirmasi ke WhatsApp Mempelai</a>';
+      waWrap.classList.remove("hidden");
+    }
+
     this.reset();
     toast("Terima kasih, " + nama + "! Konfirmasi Anda tercatat di buku tamu.");
   });
@@ -387,7 +446,10 @@
     var nama = $("ucapanNama").value.trim() || "Tamu Undangan";
     var isi = $("ucapanIsi").value.trim();
     if (!isi) { return; }
-    daftarUcapan.prepend(buatUcapan(nama, "Doa", isi));
+    var waktuStr = "Baru saja";
+    var item = { nama: nama, hadir: "Doa", isi: isi, waktu: waktuStr };
+    simpanLokal(item);
+    daftarUcapan.prepend(buatUcapan(nama, "Doa", isi, waktuStr));
     $("ucapanIsi").value = "";
     toast("Terima kasih, " + nama + "! Ucapanmu sudah tampil di buku tamu.");
   });
@@ -474,6 +536,7 @@
     waktuMulaiLoop = waktuNadaBerikut;
     sedangMain = true;
     $("btnPlay").textContent = "❚❚";
+    perbaruiStatusFloatingMusik(true);
     clearInterval(timerJadwal);
     clearInterval(timerProgress);
     timerJadwal = setInterval(jadwalkan, 200);
@@ -486,7 +549,37 @@
     clearInterval(timerProgress);
     if (ctxAudio && ctxAudio.suspend) { ctxAudio.suspend(); }
     $("btnPlay").textContent = "▶";
+    perbaruiStatusFloatingMusik(false);
   }
+
+  function perbaruiStatusFloatingMusik(aktif) {
+    var btn = $("musicFloatingBtn");
+    var icon = $("musicIcon");
+    if (!btn || !icon) return;
+    if (aktif) {
+      icon.classList.add("spin");
+      icon.textContent = "♫";
+      btn.setAttribute("aria-label", "Jeda Musik");
+    } else {
+      icon.classList.remove("spin");
+      icon.textContent = "▶";
+      btn.setAttribute("aria-label", "Putar Musik");
+    }
+  }
+
+  var btnFloat = $("musicFloatingBtn");
+  if (btnFloat) {
+    btnFloat.addEventListener("click", function () {
+      if (sedangMain) {
+        jedaLagu();
+        toast("Musik dijeda");
+      } else {
+        mulaiLagu(laguIndex);
+        toast("Memutar musik latar ♫");
+      }
+    });
+  }
+
   $("btnPlay").addEventListener("click", function () {
     if (sedangMain) { jedaLagu(); }
     else { mulaiLagu(laguIndex); }
@@ -505,6 +598,23 @@
       $("judulLagu").textContent = LAGU[laguIndex].judul;
     }
   });
+
+  /* ---------- Bottom Dock Active Tracking ---------- */
+  var dockItems = document.querySelectorAll(".dock-item");
+  var sections = document.querySelectorAll("main section[id], header.cover");
+  if ("IntersectionObserver" in window) {
+    var dockObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          var id = en.target.id;
+          dockItems.forEach(function (di) {
+            di.classList.toggle("active", di.getAttribute("data-nav") === id || di.getAttribute("href") === "#" + id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(function (s) { dockObs.observe(s); });
+  }
 
   /* ---------- Animasi muncul saat scroll (fadeInUp) ---------- */
   var revealEls = document.querySelectorAll(".reveal");
