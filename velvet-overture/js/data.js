@@ -11,6 +11,9 @@
 
 var UNDANGAN = {
 
+  /* ---------- ID Pasangan (Pemisah Database Ucapan & RSVP) ---------- */
+  slug: "budi-santi",             // Ganti dengan nama unik pasangan, mis. "dimas-rini" agar ucapan terpisah per user
+
   /* ---------- Mempelai ---------- */
   pria: {
     nama: "Budi",                 // nama panggilan — tampil besar di cover

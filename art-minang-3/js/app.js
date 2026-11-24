@@ -336,8 +336,14 @@
   });
 
   /* ---------- Buku tamu & RSVP (Cloudflare D1 + LocalStorage) ---------- */
-  var STORAGE_KEY = "saranwak_minang_ucapan";
+  var urlParams = new URLSearchParams(window.location.search);
+  var EVENT_SLUG = urlParams.get("event") || data.slug || (
+    (data.pria && data.pria.nama ? data.pria.nama : "pria") + "-" +
+    (data.wanita && data.wanita.nama ? data.wanita.nama : "wanita")
+  ).toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
   var TEMA_SLUG = "art-minang-3";
+  var STORAGE_KEY = "saranwak_" + EVENT_SLUG + "_" + TEMA_SLUG + "_ucapan";
 
   function ambilLokal() {
     try {
@@ -359,6 +365,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          event: EVENT_SLUG,
           tema: TEMA_SLUG,
           nama: item.nama,
           hadir: item.hadir,
@@ -421,7 +428,7 @@
 
   // Fetch live wishes from Cloudflare D1
   function muatUcapanD1() {
-    fetch("/api/ucapan?tema=" + TEMA_SLUG)
+    fetch("/api/ucapan?event=" + encodeURIComponent(EVENT_SLUG) + "&tema=" + encodeURIComponent(TEMA_SLUG))
       .then(function (res) { return res.json(); })
       .then(function (res) {
         if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {

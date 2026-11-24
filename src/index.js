@@ -14,20 +14,30 @@ let tableInitialized = false;
 async function ensureTable(db) {
   if (tableInitialized || !db) return;
   try {
+    // Buat tabel jika belum ada
     await db.exec(`
       CREATE TABLE IF NOT EXISTS ucapan (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        event TEXT NOT NULL DEFAULT 'budi-santi',
         tema TEXT NOT NULL,
         nama TEXT NOT NULL,
         hadir TEXT DEFAULT 'Doa',
         isi TEXT DEFAULT '',
         waktu DATETIME DEFAULT CURRENT_TIMESTAMP
       );
-      CREATE INDEX IF NOT EXISTS idx_ucapan_tema ON ucapan(tema);
+      CREATE INDEX IF NOT EXISTS idx_ucapan_event_tema ON ucapan(event, tema);
     `);
+
+    // Migrasi jika tabel lama belum memiliki kolom event
+    try {
+      await db.exec("ALTER TABLE ucapan ADD COLUMN event TEXT DEFAULT 'budi-santi';");
+    } catch (e) {
+      // Kolom sudah ada, abaikan
+    }
+
     tableInitialized = true;
   } catch (e) {
-    // Abaikan jika sudah ada atau ada error minor DDL
+    // Abaikan jika sudah terinisialisasi
   }
 }
 
@@ -51,26 +61,29 @@ async function handleUcapanApi(request, env, url) {
   // Otomatis pastikan tabel ucapan sudah ada di D1
   await ensureTable(env.DB);
 
-  // GET: Fetch ucapan for specific theme
+  // GET: Fetch ucapan untuk event dan tema spesifik
   if (request.method === "GET") {
     try {
+      const event = url.searchParams.get("event") || "budi-santi";
       const tema = url.searchParams.get("tema") || "art-minang-3";
       const limit = Math.min(Math.max(1, parseInt(url.searchParams.get("limit") || "100", 10)), 200);
 
       const query = `
-        SELECT id, tema, nama, hadir, isi,
+        SELECT id, event, tema, nama, hadir, isi,
                strftime('%d %b %Y %H:%M', waktu, '+7 hours') as waktu
         FROM ucapan
-        WHERE tema = ?
+        WHERE event = ? AND tema = ?
         ORDER BY id DESC
         LIMIT ?
       `;
 
-      const { results } = await env.DB.prepare(query).bind(tema, limit).all();
+      const { results } = await env.DB.prepare(query).bind(event, tema, limit).all();
 
       return new Response(
         JSON.stringify({
           success: true,
+          event,
+          tema,
           data: results || []
         }),
         { status: 200, headers: corsHeaders }
@@ -86,14 +99,15 @@ async function handleUcapanApi(request, env, url) {
     }
   }
 
-  // POST: Insert new ucapan / RSVP
+  // POST: Insert ucapan baru per event dan tema
   if (request.method === "POST") {
     try {
       const body = await request.json();
+      const event = String(body.event || "budi-santi").trim().slice(0, 80);
+      const tema = String(body.tema || "art-minang-3").trim().slice(0, 40);
       const nama = String(body.nama || "").trim().slice(0, 80);
       const hadir = String(body.hadir || "Doa").trim().slice(0, 50);
       const isi = String(body.isi || "").trim().slice(0, 600);
-      const tema = String(body.tema || "art-minang-3").trim().slice(0, 40);
 
       if (!nama) {
         return new Response(
@@ -103,15 +117,17 @@ async function handleUcapanApi(request, env, url) {
       }
 
       const stmt = env.DB.prepare(
-        "INSERT INTO ucapan (tema, nama, hadir, isi) VALUES (?, ?, ?, ?)"
+        "INSERT INTO ucapan (event, tema, nama, hadir, isi) VALUES (?, ?, ?, ?, ?)"
       );
-      const result = await stmt.bind(tema, nama, hadir, isi).run();
+      const result = await stmt.bind(event, tema, nama, hadir, isi).run();
 
       return new Response(
         JSON.stringify({
           success: true,
           id: result.meta ? result.meta.last_row_id : null,
           data: {
+            event,
+            tema,
             nama,
             hadir,
             isi,
