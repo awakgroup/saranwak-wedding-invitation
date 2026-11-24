@@ -624,6 +624,21 @@
     });
   }
 
+  /* ---------- Tombol Buka Undangan ---------- */
+  var btnBuka = $("btnBuka");
+  if (btnBuka) {
+    btnBuka.addEventListener("click", function () {
+      if (!sedangMain) {
+        mulaiLagu(0);
+        toast("Selamat datang! Memutar musik latar ♫");
+      }
+      var target = $("sapaan") || $("mempelai");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+
   $("btnPlay").addEventListener("click", function () {
     if (sedangMain) { jedaLagu(); }
     else { mulaiLagu(laguIndex); }

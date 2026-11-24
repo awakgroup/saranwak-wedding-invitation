@@ -29,13 +29,38 @@
     <h1><span data-nama="pria">Budi</span> <em>&amp;</em> <span data-nama="wanita">Santi</span></h1>
     <p class="tanggal-cover"><span data-tanggal-singkat>14 · 02 · 2027</span></p>
     <p class="dear">DEAR<br><b id="namaTamu">Tamu Undangan</b></p>
+    <div style="margin-top:28px;">
+      <button class="btn btn-buka" id="btnBuka">
+        <span>Buka Undangan</span>
+      </button>
+    </div>
     <p class="scroll-hint">Gulir ke bawah ↓</p>
   </div>
 </header>
 
 <main>
 
-  <!-- ================= 2 · MUSIC PLAYER ================= -->
+  <!-- ================= 2 · GREETING CARD ================= -->
+  <section class="reveal" id="sapaan">
+    <div class="jewel-card">
+      <img id="imgJewel" src="assets/jewel-box.jpg" alt="Kotak perhiasan beludru">
+      <div class="jewel-teks">
+        <p class="salam-miring">Keluarga dan sahabat terkasih!</p>
+        <p>Dengan penuh sukacita, kami mengundang Anda untuk hadir di hari pernikahan kami dan berbagi momen istimewa ini bersama.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3 · THE COUPLE ================= -->
+  <section class="reveal" id="mempelai">
+    <h2 class="judul-section">The Couple</h2>
+    <div class="couple-wrap">
+      <img class="drape-bg" id="imgDrape" src="assets/drape-hijau.jpg" alt="" aria-hidden="true">
+      <div class="couple" id="kartuMempelai"><!-- diisi js/app.js --></div>
+    </div>
+  </section>
+
+  <!-- ================= 4 · MUSIC PLAYER (OVERTURE) ================= -->
   <section class="reveal" id="musik">
     <div class="player-card">
       <div class="player-foto">
@@ -49,39 +74,21 @@
         <button id="btnNext" aria-label="Melodi berikutnya">⏭</button>
       </div>
       <div class="progress"><div class="progress-bar" id="progressBar"></div><div class="progress-dot" id="progressDot"></div></div>
-      <p class="player-note">Melodi lembut hasil sintesis — bukan rekaman lagu.</p>
+      <p class="player-note">Melodi lembut hasil sintesis WebAudio bawaan.</p>
     </div>
   </section>
 
-  <!-- ================= 3 · THE COUPLE ================= -->
-  <section class="reveal" id="mempelai">
-    <h2 class="judul-section">The Couple</h2>
-    <div class="couple-wrap">
-      <img class="drape-bg" id="imgDrape" src="assets/drape-hijau.jpg" alt="" aria-hidden="true">
-      <div class="couple" id="kartuMempelai"><!-- diisi js/app.js --></div>
-    </div>
-  </section>
-
-  <!-- ================= 4 · GREETING CARD ================= -->
-  <section class="reveal" id="sapaan">
-    <div class="jewel-card">
-      <img id="imgJewel" src="assets/jewel-box.jpg" alt="Kotak perhiasan beludru">
-      <div class="jewel-teks">
-        <p class="salam-miring">Keluarga dan sahabat terkasih!</p>
-        <p>Dengan penuh sukacita, kami ingin Anda hadir di hari pernikahan kami, dan berbagi momen istimewa ini bersama.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 5 · DATE / CALENDAR ================= -->
+  <!-- ================= 5 · DATE & CALENDAR ================= -->
   <section class="reveal" id="tanggal">
-    <h2 class="judul-section">Kami menanti Anda</h2>
+    <h2 class="judul-section">Waktu &amp; Tanggal</h2>
+    <p class="sub">Kami menantikan kehadiran dan doa restu Anda.</p>
     <div class="kalender" id="kalender"><!-- diisi js/app.js --></div>
-    <p class="jam-acara">At <span id="jamAkad">08:00</span> WIB</p>
+    <p class="jam-acara">Pukul <span id="jamAkad">08:00</span> WIB</p>
   </section>
 
   <!-- ================= 6 · COUNTDOWN ================= -->
   <section class="reveal" id="countdownSection">
+    <p class="label-countdown">MENGHITUNG HARI MENUJU BAHAGIA</p>
     <div class="count" id="countdown">
       <div><b id="d">–</b><span>Days</span></div>
       <div><b id="h">–</b><span>Hours</span></div>
@@ -98,13 +105,13 @@
       <p class="label-miring">LOCATION</p>
       <h3 id="lokasiTempat">Gedung Serbaguna</h3>
       <p id="lokasiAlamat">Jl. Khatib Sulaiman, Padang</p>
-      <p style="margin-top:16px"><a class="btn" id="btnMap" href="#" target="_blank" rel="noopener">OPEN MAP</a></p>
+      <p style="margin-top:16px"><a class="btn" id="btnMap" href="#" target="_blank" rel="noopener">Buka Google Maps</a></p>
     </div>
   </section>
 
   <!-- ================= 8 · RUNDOWN ================= -->
   <section class="reveal" id="rundown">
-    <h2 class="judul-section">Rangkaian acara</h2>
+    <h2 class="judul-section">Rangkaian Acara</h2>
     <div class="rundown-card">
       <span class="pita-hijau" aria-hidden="true"></span>
       <div class="rundown-list" id="daftarRundown"><!-- diisi js/app.js --></div>
@@ -114,22 +121,39 @@
 
   <!-- ================= 9 · GALLERY ================= -->
   <section class="reveal" id="galeri">
-    <h2 class="judul-section">Galeri kenangan</h2>
+    <h2 class="judul-section">Galeri Kenangan</h2>
     <p class="sub">Potongan kecil perjalanan cinta kami.</p>
     <div class="scrapbook" id="daftarGaleri"><!-- diisi js/app.js --></div>
     <p class="sub kecil">Klik foto untuk memperbesar.</p>
   </section>
 
-  <!-- ================= 10 · RSVP ================= -->
+  <!-- ================= 10 · WEDDING GIFT ================= -->
+  <section class="reveal" id="gift">
+    <h2 class="judul-section">Tanda Kasih</h2>
+    <p class="sub">Doa restu Anda adalah hadiah terindah bagi kami. Namun jika ingin memberi tanda kasih, Anda dapat melakukannya melalui:</p>
+    <div class="tab-bar">
+      <button class="tab-btn aktif" data-tab="transfer">DIRECT TRANSFER</button>
+      <button class="tab-btn" data-tab="kado">KIRIM KADO</button>
+    </div>
+    <div class="tab-panel" id="tabTransfer">
+      <div id="daftarAmplop"><!-- diisi js/app.js --></div>
+    </div>
+    <div class="tab-panel hidden" id="tabKado">
+      <p id="alamatKado"></p>
+      <button class="btn kecil" data-salin-target="alamatKado" style="margin-top:12px">Salin Alamat</button>
+    </div>
+  </section>
+
+  <!-- ================= 11 · RSVP ================= -->
   <section class="reveal" id="rsvp">
-    <h2 class="judul-section">RSVP</h2>
-    <p class="sub">Mohon konfirmasi kehadiran Anda paling lambat satu minggu sebelum acara.</p>
+    <h2 class="judul-section">Konfirmasi RSVP</h2>
+    <p class="sub">Mohon konfirmasi kehadiran Anda demi kenyamanan acara.</p>
     <form id="formRsvp">
-      <input id="rsvpNama" required placeholder="Nama lengkap *">
+      <input id="rsvpNama" required placeholder="Nama lengkap Anda *">
       <input id="rsvpWa" placeholder="Nomor WhatsApp (opsional)" inputmode="tel">
       <div class="radio-row">
         <label><input type="radio" name="rsvpHadir" value="Hadir" checked> Ya, saya akan hadir</label>
-        <label><input type="radio" name="rsvpHadir" value="Tidak Hadir"> Maaf, saya tidak bisa hadir</label>
+        <label><input type="radio" name="rsvpHadir" value="Tidak Hadir"> Maaf, belum bisa hadir</label>
       </div>
       <select id="rsvpJumlah" aria-label="Jumlah tamu">
         <option value="1 Tamu">1 Tamu</option>
@@ -138,39 +162,22 @@
         <option value="4 Tamu">4 Tamu</option>
         <option value="5 Tamu">5 Tamu</option>
       </select>
-      <textarea id="rsvpUcapan" rows="2" placeholder="Ucapan (opsional)"></textarea>
-      <button class="btn" type="submit">SUBMIT CONFIRMATION</button>
+      <textarea id="rsvpUcapan" rows="2" placeholder="Ucapan atau doa (opsional)"></textarea>
+      <button class="btn" type="submit">KIRIM KONFIRMASI</button>
     </form>
-    <p id="rsvpOk" class="hidden pesan-sukses">Terima kasih — konfirmasi Anda tercatat di buku tamu di bawah.</p>
+    <p id="rsvpOk" class="hidden pesan-sukses">Terima kasih — konfirmasi Anda tercatat di buku tamu.</p>
     <div id="rsvpWaWrap" class="hidden" style="margin-top:10px;"></div>
-  </section>
-
-  <!-- ================= 11 · WEDDING GIFT ================= -->
-  <section class="reveal" id="gift">
-    <h2 class="judul-section">Wedding gift</h2>
-    <p class="sub">Doa restu Anda adalah hadiah terindah bagi kami. Namun jika ingin memberi tanda kasih, Anda dapat melakukannya melalui:</p>
-    <div class="tab-bar">
-      <button class="tab-btn aktif" data-tab="transfer">DIRECT TRANSFER</button>
-      <button class="tab-btn" data-tab="kado">SEND GIFT</button>
-    </div>
-    <div class="tab-panel" id="tabTransfer">
-      <div id="daftarAmplop"><!-- diisi js/app.js --></div>
-    </div>
-    <div class="tab-panel hidden" id="tabKado">
-      <p id="alamatKado"></p>
-      <button class="btn kecil" data-salin-target="alamatKado" style="margin-top:12px">Copy address</button>
-    </div>
   </section>
 
   <!-- ================= 12 · GUEST BOOK ================= -->
   <section class="reveal" id="bukuTamu">
-    <h2 class="judul-section">Doa &amp; ucapan</h2>
-    <p class="sub">Tuliskan doa dan ucapan terbaik Anda untuk kami.</p>
+    <h2 class="judul-section">Doa &amp; Ucapan</h2>
+    <p class="sub">Untaian doa restu dari keluarga dan sahabat terkasih.</p>
     <div style="text-align:center;"><div id="rsvpStatBadge" class="rsvp-counter-badge">Memuat data ucapan...</div></div>
     <form id="formUcapan">
       <input id="ucapanNama" placeholder="Nama lengkap Anda">
-      <textarea id="ucapanIsi" rows="3" required placeholder="Tulis ucapan Anda di sini"></textarea>
-      <button class="btn" type="submit">SUBMIT NOW</button>
+      <textarea id="ucapanIsi" rows="3" required placeholder="Tuliskan ucapan dan doa terbaik Anda di sini"></textarea>
+      <button class="btn" type="submit">KIRIM UCAPAN</button>
     </form>
     <div id="daftarUcapan" style="margin-top:24px"><!-- diisi js/app.js --></div>
   </section>
@@ -192,7 +199,7 @@
 
 <footer>
   <p><b>Saranwak</b> — Undangan Digital</p>
-  <p style="margin-top:6px">Template contoh — nama, tanggal, tempat, dan rekening masih data contoh. Edit di <b>js/data.js</b>.</p>
+  <p style="margin-top:6px">Velvet Overture · Nuansa Romantis Beludru Burgundy</p>
 </footer>
 
 </div><!-- /.kolom -->
@@ -220,14 +227,14 @@
     <h3 id="qrJudul">QR Code</h3>
     <p id="qrDetail"></p>
     <div id="qrBox"></div>
-    <p class="qr-fallback hidden" id="qrFallback">QR tidak dapat dimuat (butuh internet untuk pustaka QR). Silakan salin nomor rekening di atas.</p>
+    <p class="qr-fallback hidden" id="qrFallback">QR tidak dapat dimuat. Silakan salin nomor rekening di atas.</p>
   </div>
 </div>
 
-<!-- Toast -->
+<!-- Toast Notification -->
 <div class="toast hidden" id="toast"></div>
 
-<!-- Floating Music Controller -->
+<!-- Floating Music Controller (Pinned to top-right of invitation card) -->
 <button class="music-floating-btn" id="musicFloatingBtn" aria-label="Putar / Jeda Musik" title="Musik Latar">
   <span class="music-icon" id="musicIcon" aria-hidden="true">▶</span>
 </button>
@@ -238,17 +245,21 @@
     <span class="dock-icon">🏠</span>
     <span class="dock-label">Cover</span>
   </a>
+  <a href="#mempelai" class="dock-item" data-nav="mempelai" title="Mempelai">
+    <span class="dock-icon">💍</span>
+    <span class="dock-label">Mempelai</span>
+  </a>
   <a href="#musik" class="dock-item" data-nav="musik" title="Musik">
     <span class="dock-icon">🎵</span>
     <span class="dock-label">Musik</span>
   </a>
-  <a href="#mempelai" class="dock-item" data-nav="mempelai" title="Mempelai">
-    <span class="dock-icon">💍</span>
-    <span class="dock-label">Couple</span>
-  </a>
   <a href="#tanggal" class="dock-item" data-nav="tanggal" title="Acara">
     <span class="dock-icon">📅</span>
     <span class="dock-label">Acara</span>
+  </a>
+  <a href="#lokasi" class="dock-item" data-nav="lokasi" title="Lokasi">
+    <span class="dock-icon">📍</span>
+    <span class="dock-label">Lokasi</span>
   </a>
   <a href="#galeri" class="dock-item" data-nav="galeri" title="Galeri">
     <span class="dock-icon">🖼️</span>
