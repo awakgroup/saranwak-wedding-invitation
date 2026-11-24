@@ -55,14 +55,33 @@
   });
   setTimeout(sembunyikanLoader, 2500); // pengaman bila load tertahan
 
-  /* ---------- Nama tamu dari ?to= ---------- */
-  var params = new URLSearchParams(window.location.search);
-  var to = params.get("to");
-  if (to) {
-    $("namaTamu").textContent = to;
-    var un = $("ucapanNama");
-    if (un) { un.value = to; }
+  /* ---------- Helper Resolusi Path Asset ---------- */
+  function resolveAssetUrl(u) {
+    if (!u) return u;
+    if (u.startsWith("http://") || u.startsWith("https://") || u.startsWith("/") || u.startsWith("data:")) {
+      return u;
+    }
+    var baseTema = window.TEMA_SLUG || "velvet-overture";
+    return "/" + baseTema + "/" + u;
   }
+
+  /* ---------- Nama tamu (dari window.NAMA_TAMU / path URL / ?to=) ---------- */
+  function dapatkanNamaTamu() {
+    if (window.NAMA_TAMU && window.NAMA_TAMU.trim()) return window.NAMA_TAMU.trim();
+    var p = new URLSearchParams(window.location.search);
+    if (p.get("to") && p.get("to").trim()) return p.get("to").trim();
+    var segs = window.location.pathname.split("/").filter(Boolean);
+    if (segs.length >= 2 && !["css", "js", "assets", "art-minang-3", "velvet-overture", "bataknese", "api"].includes(segs[0])) {
+      var raw = segs[1];
+      try { raw = decodeURIComponent(raw); } catch (e) {}
+      return raw.replace(/[-_+]+/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    }
+    return "Tamu Undangan";
+  }
+  var namaTamu = dapatkanNamaTamu();
+  $("namaTamu").textContent = namaTamu;
+  var un = $("ucapanNama");
+  if (un) { un.value = namaTamu; }
 
   /* ---------- Nama & tanggal di seluruh halaman ---------- */
   document.querySelectorAll('[data-nama="pria"]').forEach(function (el) {
@@ -368,7 +387,7 @@
 
   /* ---------- Buku Tamu & RSVP (Cloudflare D1 + LocalStorage) ---------- */
   var urlParams = new URLSearchParams(window.location.search);
-  var EVENT_SLUG = urlParams.get("event") || data.slug || (
+  var EVENT_SLUG = window.PASANGAN_SLUG || urlParams.get("event") || data.slug || (
     (data.pria && data.pria.nama ? data.pria.nama : "pria") + "-" +
     (data.wanita && data.wanita.nama ? data.wanita.nama : "wanita")
   ).toLowerCase().replace(/[^a-z0-9]+/g, "-");

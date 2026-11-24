@@ -2,6 +2,7 @@
   "name": "saranwak-wedding-invitation",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Saranwak Digital Wedding Invitation - 3 Themes",
   "scripts": {
     "build": "npx wrangler deploy",

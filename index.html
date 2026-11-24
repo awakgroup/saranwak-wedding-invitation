@@ -974,7 +974,7 @@
   <div class="template-grid" id="templateGrid">
 
     <!-- TEMPLATE 01: ART MINANG 3 -->
-    <article class="template-card" data-category="minang" data-id="art-minang-3" data-name="Art Minang 3" data-url="art-minang-3/index.html">
+    <article class="template-card" data-category="minang" data-id="art-minang-3" data-name="Art Minang 3" data-url="budi-santi/">
       <div class="card-top">
         <span class="card-index">01 / 03</span>
         <span class="card-category">Minangkabau Heritage</span>
@@ -1021,14 +1021,14 @@
         </div>
 
         <div class="card-buttons">
-          <a href="art-minang-3/index.html" target="_blank" rel="noopener" class="btn-primary-action">
+          <a href="budi-santi/" target="_blank" rel="noopener" class="btn-primary-action">
             Buka Template Penuh ↗
           </a>
           <div class="btn-secondary-group">
-            <button type="button" class="btn-sim-action btn-trigger-sim" data-url="art-minang-3/index.html" data-title="Art Minang 3">
+            <button type="button" class="btn-sim-action btn-trigger-sim" data-url="budi-santi/" data-title="Art Minang 3">
               Simulasi Device
             </button>
-            <button type="button" class="btn-copy-action btn-trigger-copy" data-url="art-minang-3/index.html" title="Salin Link Template">
+            <button type="button" class="btn-copy-action btn-trigger-copy" data-url="budi-santi/" title="Salin Link Template">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
@@ -1403,10 +1403,19 @@
       btnSimExternal.href = url;
 
       var baseDomain = window.location.origin && window.location.origin.includes("saranwak.com") ? window.location.origin : "https://undangan.saranwak.com";
-      simUrlPrefix.textContent = baseDomain + "/" + url + "?to=";
-
-      var guest = simGuestInput.value.trim();
-      simIframe.src = url + (guest ? "?to=" + encodeURIComponent(guest) : "");
+      var isCleanSlug = url.startsWith("budi-santi");
+      if (isCleanSlug) {
+        simUrlPrefix.textContent = baseDomain + "/" + url;
+        simGuestInput.placeholder = "contoh: keluarga-joko";
+        var guest = simGuestInput.value.trim();
+        var guestSlug = guest ? encodeURIComponent(guest.toLowerCase().replace(/[\s+]+/g, "-")) : "";
+        simIframe.src = url + guestSlug;
+      } else {
+        simUrlPrefix.textContent = baseDomain + "/" + url + "?to=";
+        simGuestInput.placeholder = "Ketik nama tamu...";
+        var guest = simGuestInput.value.trim();
+        simIframe.src = url + (guest ? "?to=" + encodeURIComponent(guest) : "");
+      }
 
       // Default to mobile
       setSimMode("mobile");
@@ -1445,8 +1454,15 @@
 
     btnApplyGuest.addEventListener("click", function () {
       var guest = simGuestInput.value.trim();
-      simIframe.src = activeUrl + (guest ? "?to=" + encodeURIComponent(guest) : "");
-      showToast("Parameter ?to= diperbarui");
+      var isCleanSlug = activeUrl.startsWith("budi-santi");
+      if (isCleanSlug) {
+        var guestSlug = guest ? encodeURIComponent(guest.toLowerCase().replace(/[\s+]+/g, "-")) : "";
+        simIframe.src = activeUrl + guestSlug;
+        showToast("Tujuan undangan /" + (guestSlug || "") + " diperbarui");
+      } else {
+        simIframe.src = activeUrl + (guest ? "?to=" + encodeURIComponent(guest) : "");
+        showToast("Parameter ?to= diperbarui");
+      }
     });
 
     simGuestInput.addEventListener("keydown", function (e) {

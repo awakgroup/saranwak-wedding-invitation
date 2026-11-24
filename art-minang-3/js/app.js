@@ -45,9 +45,30 @@
     }
   }
 
-  /* ---------- Nama tamu dari ?to= ---------- */
-  var params = new URLSearchParams(window.location.search);
-  var namaTamu = params.get("to") || "Tamu Undangan";
+  /* ---------- Helper Resolusi Path Asset ---------- */
+  function resolveAssetUrl(u) {
+    if (!u) return u;
+    if (u.startsWith("http://") || u.startsWith("https://") || u.startsWith("/") || u.startsWith("data:")) {
+      return u;
+    }
+    var baseTema = window.TEMA_SLUG || "art-minang-3";
+    return "/" + baseTema + "/" + u;
+  }
+
+  /* ---------- Nama tamu (dari window.NAMA_TAMU / path URL / ?to=) ---------- */
+  function dapatkanNamaTamu() {
+    if (window.NAMA_TAMU && window.NAMA_TAMU.trim()) return window.NAMA_TAMU.trim();
+    var p = new URLSearchParams(window.location.search);
+    if (p.get("to") && p.get("to").trim()) return p.get("to").trim();
+    var segs = window.location.pathname.split("/").filter(Boolean);
+    if (segs.length >= 2 && !["css", "js", "assets", "art-minang-3", "velvet-overture", "bataknese", "api"].includes(segs[0])) {
+      var raw = segs[1];
+      try { raw = decodeURIComponent(raw); } catch (e) {}
+      return raw.replace(/[-_+]+/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    }
+    return "Tamu Undangan";
+  }
+  var namaTamu = dapatkanNamaTamu();
   $("namaTamu").textContent = namaTamu;
   var un = $("ucapanNama");
   if (un) { un.value = namaTamu; }
@@ -67,24 +88,24 @@
   document.querySelectorAll("[data-kota]").forEach(function (el) {
     el.textContent = data.kotaAcara;
   });
-  document.title = data.pria.nama + " & " + data.wanita.nama + " — Art Minang 3 · Undangan Pernikahan";
+  document.title = data.pria.nama + " & " + data.wanita.nama + " — Undangan Pernikahan";
 
   /* ---------- Gambar latar dari data.js ---------- */
   var g = data.gambar || {};
-  if (g.hero) { $("heroCover").src = g.hero; $("heroUtama").src = g.hero; }
-  if (g.suntiang) { $("bgSuntiang").src = g.suntiang; }
-  if (g.dedaunan) { $("bgDedaunan").src = g.dedaunan; }
-  if (g.liveStreaming) { $("bgLive").src = g.liveStreaming; }
-  if (g.fasad) { $("bgFasad").src = g.fasad; }
-  if (g.kainMarun) { $("bgKain").src = g.kainMarun; }
+  if (g.hero) { $("heroCover").src = resolveAssetUrl(g.hero); $("heroUtama").src = resolveAssetUrl(g.hero); }
+  if (g.suntiang) { $("bgSuntiang").src = resolveAssetUrl(g.suntiang); }
+  if (g.dedaunan) { $("bgDedaunan").src = resolveAssetUrl(g.dedaunan); }
+  if (g.liveStreaming) { $("bgLive").src = resolveAssetUrl(g.liveStreaming); }
+  if (g.fasad) { $("bgFasad").src = resolveAssetUrl(g.fasad); }
+  if (g.kainMarun) { $("bgKain").src = resolveAssetUrl(g.kainMarun); }
   if (g.ikonRumahGadang) {
-    document.querySelectorAll(".gonjong-icon").forEach(function (img) { img.src = g.ikonRumahGadang; });
+    document.querySelectorAll(".gonjong-icon").forEach(function (img) { img.src = resolveAssetUrl(g.ikonRumahGadang); });
   }
 
   /* ---------- Kartu mempelai (wanita dulu, seperti aslinya) ---------- */
   function kartuMempelai(orang) {
     var foto = orang.foto
-      ? '<img src="' + orang.foto + '" alt="Foto ' + orang.nama + '" data-inisial="' + orang.inisial + '">'
+      ? '<img src="' + resolveAssetUrl(orang.foto) + '" alt="Foto ' + orang.nama + '" data-inisial="' + orang.inisial + '">'
       : '<span class="inisial">' + orang.inisial + "</span>"
         + '<span class="ganti">Foto mempelai — tambahkan ke folder assets/ lalu isi di js/data.js</span>';
     var ig = orang.instagram
@@ -170,13 +191,14 @@
 
   /* ---------- Galeri: carousel + grid + lightbox ---------- */
   var fotoAda = data.galeri
-    .map(function (item, i) { return { src: item.src, judul: item.judul, index: i }; })
+    .map(function (item, i) { return { src: resolveAssetUrl(item.src), judul: item.judul, index: i }; })
     .filter(function (item) { return item.src; });
 
   function tileGaleri(item, i) {
-    if (item.src) {
+    var imgSrc = resolveAssetUrl(item.src);
+    if (imgSrc) {
       return '<div class="tile" data-galeri="' + i + '">'
-        + '<img src="' + item.src + '" alt="' + item.judul + '" loading="lazy">'
+        + '<img src="' + imgSrc + '" alt="' + item.judul + '" loading="lazy">'
         + '<span class="judul">' + item.judul + "</span></div>";
     }
     return '<div class="tile" data-galeri="' + i + '">'
@@ -337,7 +359,7 @@
 
   /* ---------- Buku tamu & RSVP (Cloudflare D1 + LocalStorage) ---------- */
   var urlParams = new URLSearchParams(window.location.search);
-  var EVENT_SLUG = urlParams.get("event") || data.slug || (
+  var EVENT_SLUG = window.PASANGAN_SLUG || urlParams.get("event") || data.slug || (
     (data.pria && data.pria.nama ? data.pria.nama : "pria") + "-" +
     (data.wanita && data.wanita.nama ? data.wanita.nama : "wanita")
   ).toLowerCase().replace(/[^a-z0-9]+/g, "-");
