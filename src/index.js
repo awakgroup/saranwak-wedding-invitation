@@ -34,6 +34,7 @@ let tableInitialized = false;
 async function ensureTable(db) {
   if (tableInitialized || !db) return;
   try {
+    // 1. Buat tabel ucapan jika belum ada
     await db.exec(`
       CREATE TABLE IF NOT EXISTS ucapan (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,20 +45,31 @@ async function ensureTable(db) {
         isi TEXT DEFAULT '',
         waktu DATETIME DEFAULT CURRENT_TIMESTAMP
       );
-      CREATE INDEX IF NOT EXISTS idx_ucapan_event_tema ON ucapan(event, tema);
-
-      CREATE TABLE IF NOT EXISTS acara_pasangan (
-        slug TEXT PRIMARY KEY,
-        tema TEXT NOT NULL DEFAULT 'art-minang-3',
-        pria TEXT DEFAULT 'Budi',
-        wanita TEXT DEFAULT 'Santi',
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-      INSERT OR IGNORE INTO acara_pasangan (slug, tema, pria, wanita) VALUES ('budi-santi', 'art-minang-3', 'Budi', 'Santi');
     `);
 
+    // 2. Migrasi: tambah kolom event jika tabel lama belum memiliki kolom event
     try {
       await db.exec("ALTER TABLE ucapan ADD COLUMN event TEXT DEFAULT 'budi-santi';");
+    } catch (e) {}
+
+    // 3. Buat index
+    try {
+      await db.exec("CREATE INDEX IF NOT EXISTS idx_ucapan_event_tema ON ucapan(event, tema);");
+      await db.exec("CREATE INDEX IF NOT EXISTS idx_ucapan_waktu ON ucapan(waktu DESC);");
+    } catch (e) {}
+
+    // 4. Buat tabel acara_pasangan
+    try {
+      await db.exec(`
+        CREATE TABLE IF NOT EXISTS acara_pasangan (
+          slug TEXT PRIMARY KEY,
+          tema TEXT NOT NULL DEFAULT 'art-minang-3',
+          pria TEXT DEFAULT 'Budi',
+          wanita TEXT DEFAULT 'Santi',
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+        INSERT OR IGNORE INTO acara_pasangan (slug, tema, pria, wanita) VALUES ('budi-santi', 'art-minang-3', 'Budi', 'Santi');
+      `);
     } catch (e) {}
 
     tableInitialized = true;
@@ -142,14 +154,34 @@ async function handleUcapanApi(request, env, url) {
         LIMIT ?
       `;
 
-      const { results } = await env.DB.prepare(query).bind(event, tema, limit).all();
+      let results = [];
+      try {
+        const res = await env.DB.prepare(query).bind(event, tema, limit).all();
+        results = res.results || [];
+      } catch (dbErr) {
+        try {
+          await env.DB.exec("ALTER TABLE ucapan ADD COLUMN event TEXT DEFAULT 'budi-santi';");
+          const retry = await env.DB.prepare(query).bind(event, tema, limit).all();
+          results = retry.results || [];
+        } catch (e2) {
+          const fallbackRes = await env.DB.prepare(`
+            SELECT id, 'budi-santi' as event, tema, nama, hadir, isi,
+                   strftime('%d %b %Y %H:%M', waktu, '+7 hours') as waktu
+            FROM ucapan
+            WHERE tema = ?
+            ORDER BY id DESC
+            LIMIT ?
+          `).bind(tema, limit).all();
+          results = fallbackRes.results || [];
+        }
+      }
 
       return new Response(
         JSON.stringify({
           success: true,
           event,
           tema,
-          data: results || []
+          data: results
         }),
         { status: 200, headers: corsHeaders }
       );
